@@ -22,7 +22,7 @@
 - (void)prepareToPlay;
 
 /*!
- @method        prepareToPlay:
+prepareToPlay:
  @abstract      Prepares a Vcc player for playback. (required)
  
  If a Vcc player is not already prepared to play when you call the play method, that method automatically calls this method. However, to minimize playback delay, call this method before you call play.

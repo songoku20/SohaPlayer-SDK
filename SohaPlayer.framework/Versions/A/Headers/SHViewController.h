@@ -13,7 +13,6 @@
 #import "SHViewControllerProtocols.h"
 #import "SHPlayerConfig.h"
 #import "SHController.h"
-#import "ControlsPlayer.h"
 
 @class SHViewController;
 @protocol SHViewControllerDelegate <NSObject>
@@ -38,7 +37,7 @@
 
 @interface SHViewController : UIViewController
 
-@property (nonatomic,strong) id<ControlsPlayerDelegate> controllerDelegate;
+//@property (nonatomic,strong) id<ControlsPlayerDelegate> controllerDelegate;
 
 + (void)setLogLevel:(SHLogLevel)logLevel;
 

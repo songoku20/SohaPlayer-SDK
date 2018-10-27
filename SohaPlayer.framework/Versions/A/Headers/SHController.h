@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, SHMediaPlaybackState) {
     SHMediaPlaybackStateSeekingBackward
 };
 
-///@todo
+
 typedef NS_OPTIONS(NSUInteger, SHMediaLoadState) {
     /* The load state is not known. */
     SHMediaLoadStateUnknown        = 0,
