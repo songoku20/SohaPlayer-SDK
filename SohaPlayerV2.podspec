@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.license          = 'MIT'
   s.author           = { 'songoku20' => 'sonleminh@vccorp.vn' }
   # s.source           = { :git => 'https://github.com/songoku20/SohaPlayerV2.git', :tag => s.version.to_s }
-  s.source           = { :http => "https://github.com/songoku20/SohaPlayer-SDK/releases/download/#{s.version}/Archive.zip" }
+  s.source           = { :http => "https://github.com/songoku20/SohaPlayer-SDK/releases/download/#{s.version}/SohaPlayerV2-#{s.version}.zip" }
 
   # s.ios.deployment_target = '8.0'
 
