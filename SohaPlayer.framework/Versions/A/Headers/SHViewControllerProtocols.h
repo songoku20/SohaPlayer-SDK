@@ -55,13 +55,14 @@ typedef enum{
 @property (nonatomic, readonly) BOOL isSHPlayer;
 
 
+- (void)setCurrentPlaybackTime:(NSTimeInterval)currentPlaybackTime enableUpdate:(BOOL)enableUpdate;
 - (instancetype)initWithParentView:(UIView *)parentView;
 - (void)setPlayerSource:(NSURL *)playerSource;
 - (NSURL *)playerSource;
 - (void)play;
 - (void)pause;
 - (void)removePlayer;
-
+- (void)updateCurrentTime:(NSTimeInterval )time;
 - (void)setlayerGravity:(AVLayerVideoGravity)gravity;
 @optional
 

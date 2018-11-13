@@ -1,0 +1,16 @@
+PODS:
+  - SohaPlayerV2 (0.1.5)
+
+DEPENDENCIES:
+  - SohaPlayerV2 (from `../`)
+
+EXTERNAL SOURCES:
+  SohaPlayerV2:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  SohaPlayerV2: 1dc109bbf58fcd9c461b039d6cc63c1038d08207
+
+PODFILE CHECKSUM: 29321148a9425d122193fef88995630c960d305e
+
+COCOAPODS: 1.6.0.beta.2

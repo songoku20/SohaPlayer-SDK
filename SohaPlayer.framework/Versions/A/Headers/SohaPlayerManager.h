@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SHViewController/SHViewController.h"
+#import "SohaPlayer/SHViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

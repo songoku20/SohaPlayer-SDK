@@ -8,7 +8,7 @@
 e
 Pod::Spec.new do |s|
   s.name             = 'SohaPlayerV2'
-  s.version          = '0.1.3'
+  s.version          = '0.1.6'
   s.summary          = 'Everything about this project under our ownership'
 
 # This description is used to generate tags and improve search results.
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.license          = 'MIT'
   s.author           = { 'songoku20' => 'sonleminh@vccorp.vn' }
   # s.source           = { :git => 'https://github.com/songoku20/SohaPlayerV2.git', :tag => s.version.to_s }
-  s.source           = { :http => "https://github.com/songoku20/SohaPlayer-SDK/releases/download/#{s.version}/SohaPlayerV2-#{s.version}.zip" }
+  s.source           = { :http => "https://github.com/songoku20/SohaPlayer-SDK/releases/download/0.1.6/SohaPlayerV2-0.1.6.zip" }
 
   # s.ios.deployment_target = '8.0'
   s.source_files = 'SohaPlayerV2/Classes/**/*'
@@ -37,7 +37,7 @@ Pod::Spec.new do |s|
   s.preserve_paths      = 'SohaPlayer.framework'
   s.public_header_files = 'SohaPlayer.framework/Versions/A/Headers/SohaPlayer.h'
   s.source_files        = 'SohaPlayer.framework/Versions/A/Headers/SohaPlayer.h'
-  s.resource           = 'SohaPlayer.bundle'
+  s.resource            = 'SohaPlayer.bundle'
   s.vendored_frameworks = 'SohaPlayer.framework'
-  # s.vendored_library = 'libstdc++.6.0.9.dylib', 'libstdc++.6.dylib'
+  # s.vendored_library    = 'libstdc++.6.0.9.dylib', 'libstdc++.6.dylib'
 end

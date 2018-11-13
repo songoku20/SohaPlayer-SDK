@@ -1,0 +1,6 @@
+framework module Pods_SohaPlayerV2_Example {
+  umbrella header "Pods-SohaPlayerV2_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}
