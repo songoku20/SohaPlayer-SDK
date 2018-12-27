@@ -63,6 +63,8 @@
 
 -(NSString*) getPlayerKey;
 
+-(NSURL*)getURLPlayer;
+
 @property (nonatomic, weak) id<SHViewControllerDelegate> delegate;
 
 @property (nonatomic, weak) id<SHSourceURLProvider> customSourceURLProvider;
@@ -118,7 +120,7 @@ typedef NS_ENUM(NSInteger, KDPAPIState) {
 
 
 
-- (void)addSHPlayerEventLvoidistener:(NSString *)event eventID:(NSString *)eventID handler:(void(^)(NSString *eventName, NSString *params))handler;
+//- (void)addSHPlayerEventLvoidistener:(NSString *)event eventID:(NSString *)eventID handler:(void(^)(NSString *eventName, NSString *params))handler;
 
 
 
@@ -174,6 +176,7 @@ typedef NS_ENUM(NSInteger, KDPAPIState) {
 @property (nonatomic) BOOL showControls;
 
 @property (nonatomic) BOOL autoPlay;
+
 
 @end
 

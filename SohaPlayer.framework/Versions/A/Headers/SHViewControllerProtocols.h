@@ -71,7 +71,8 @@ typedef enum{
 - (void)changeSubtitleLanguage:(NSString *)languageCode;
 - (void)setSourceWithAsset:(AVURLAsset*)asset;
 - (void)hidePlayer;
-
+- (UIImage *)screenshotFromPlayer;
+- (NSString*)getImageByAPI:(int)second error:(NSError**)error;
 @end
 
 @protocol SHPlayerDelegate <NSObject>

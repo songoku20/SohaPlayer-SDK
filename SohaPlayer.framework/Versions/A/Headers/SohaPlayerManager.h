@@ -52,7 +52,6 @@ typedef enum {
 
 @end
 
-
 @interface SohaPlayerManager : NSObject
 
     #pragma Method public for user
@@ -116,6 +115,9 @@ typedef enum {
      * set Player manager delegate when player manager initialized
      */
     -(void)setOnPlayerPrepare:(id<OnPreparePlayerManager>)reponse;
+
+
+    -(void)registerPluginEvent:(NSString*)key callback:(void(^)(NSString* keyName,NSDictionary *dict))callback;
 
 @end
 
