@@ -24,19 +24,19 @@ Pod::Spec.new do |s|
   s.license          = 'MIT'
   s.author           = { 'songoku20' => 'sonleminh@vccorp.vn' }
   # s.source           = { :git => 'https://github.com/songoku20/SohaPlayerV2.git', :tag => s.version.to_s }
-  s.source           = { :http => "https://github.com/songoku20/SohaPlayer-SDK/releases/download/1.1.2-dev/SohaPlayerV2-1.1.8" }
+  s.source           = { :http => "https://github.com/songoku20/SohaPlayer-SDK/releases/download/1.1.8/SohaPlayerV2-1.1.8.zip" }
 
   # s.ios.deployment_target = '8.0'
   s.source_files = 'SohaPlayerV2/Classes/**/*'
-  
+  s.pod_target_xcconfig = { 'VALID_ARCHS' => 'arm64 x86_64' }
   s.frameworks          = ["SystemConfiguration", "QuartzCore", "CoreMedia", "AVFoundation", "AudioToolbox", "AdSupport", "ImageIO", "WebKit", "Social", "MediaAccessibility"]
   s.library             = "z", "System", "xml2", "xml2.2", "c++"
   s.requires_arc        = true
   
   s.platform            = :ios, '8.0'
   s.preserve_paths      = 'SohaPlayer.framework'
-  s.public_header_files = 'SohaPlayer.framework/Versions/A/Headers/SohaPlayer.h'
-  s.source_files        = 'SohaPlayer.framework/Versions/A/Headers/SohaPlayer.h'
+  s.public_header_files = 'SohaPlayer.framework/Versions/A/Headers/SohaPlayerManager.h'
+  s.source_files        = 'SohaPlayer.framework/Versions/A/Headers/SohaPlayerManager.h'
   s.resource            = 'SohaPlayer.bundle'
   s.vendored_frameworks = 'SohaPlayer.framework'
   # s.vendored_library    = 'libstdc++.6.0.9.dylib', 'libstdc++.6.dylib'
