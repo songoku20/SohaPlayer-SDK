@@ -9,10 +9,54 @@
 
 @protocol SohaPlayer;
 
-#import "SHLog.h"
 #import "SHViewControllerProtocols.h"
 #import "SHPlayerConfig.h"
-#import "SHController.h"
+#import "SHAdManager.h"
+//#import "SHIMAPlayerViewController.h"
+// -----------------------------------------------------------------------------
+// Media Player Types
+
+typedef NS_ENUM(NSInteger, SHMediaPlaybackState) {
+    SHMediaPlaybackStateUnknown = 0,
+    SHMediaPlaybackStateLoaded = 1,
+    SHMediaPlaybackStateReady = 2,
+    /* Playback is currently under way. */
+    SHMediaPlaybackStatePlaying = 3,
+    /* Playback is currently paused. */
+    SHMediaPlaybackStatePaused = 4,
+    /* Playback is currently ended. */
+    SHMediaPlaybackStateEnded = 5,
+    /* Playback is temporarily interrupted, perhaps because the buffer ran out of content. */
+    SHMediaPlaybackStateInterrupted = 6,
+    /* The movie player is currently seeking towards the end of the movie. */
+    SHMediaPlaybackStateSeekingForward = 7,
+    /* The movie player is currently seeking towards the beginning of the movie. */
+    SHMediaPlaybackStateSeekingBackward = 8
+};
+
+
+typedef NS_OPTIONS(NSUInteger, SHMediaLoadState) {
+    /* The load state is not known. */
+    SHMediaLoadStateUnknown        = 0,
+    /* The buffer has enough data that playback can begin, but it may run out of data before playback finishes. */
+    SHMediaLoadStatePlayable       = 1 << 0, //1
+    /* Enough data has been buffered for playback to continue uninterrupted. */
+    SHMediaLoadStatePlaythroughOK  = 1 << 1, //2 Playback will be automatically started in this state when shouldAutoplay is YES
+    /* The buffering of data has stalled. */
+    SHMediaLoadStateStalled        = 1 << 2, //4 Playback will be automatically paused in this state, if started
+    /* Start buffering*/
+    SHMediaLoadStateStartBuffering = 1 << 3, //8
+    /* Stop buffering*/
+    SHMediaLoadStateStopBuffering = 1 << 4, //16
+    
+};
+
+
+extern NSString * const SHMediaPlaybackStateDidChangeNotification;
+
+// -----------------------------------------------------------------------------
+// Media Player Keys
+extern NSString * const SHMediaPlaybackStateKey;
 
 @class SHViewController;
 @protocol SHViewControllerDelegate <NSObject>
@@ -24,22 +68,38 @@
 - (void)SHPlayer:(SHViewController *)player playerPlaybackStateDidChange:(SHMediaPlaybackState)state;
 - (void)SHPlayer:(SHViewController *)player playerFullScreenToggled:(BOOL)isFullScreen;
 - (void)SHPlayer:(SHViewController *)player didFailWithError:(NSError *)error;
+- (void)onAdsEventListener:(NSString*)event;
+- (void)onAdsProgressListener:(float)mediaTime totalTime:(float)totalTime;
 @end
-
-@protocol SHSourceURLProvider <NSObject>
-
-- (NSString *)urlForEntryId:(NSString *)entryId currentURL:(NSString*)current;
-
-@end
-
-#import "ChromecastDeviceController.h"
-
 
 @interface SHViewController : UIViewController
 
-//@property (nonatomic,strong) id<ControlsPlayerDelegate> controllerDelegate;
+/// @return Duration of the current video
+-(NSTimeInterval) duration;
+/* The volume of the player. */
+-(float) volume NS_AVAILABLE(10_7, 7_0);
+/* Mute or UnMute the player. */
+-(BOOL) mute NS_AVAILABLE(10_7, 7_0);
 
-+ (void)setLogLevel:(SHLogLevel)logLevel;
+/// Perfoms seek to the currentPlaybackTime and returns the currentPlaybackTime
+-(NSTimeInterval) currentPlaybackTime;
+
+/* The current playback state of the movie player. (read-only)
+ The playback state is affected by programmatic calls to play, pause the SHPlayer. */
+/* The current load state of the SHPlayer. (read-only). */
+//-(SHMediaLoadState) loadState;
+//-(SHMediaPlaybackState) playbackState;
+//@property (nonatomic) SHMediaLoadState loadState;
+
+-(SHMediaPlaybackState)getPlaybackState;
+
+- (void)play;
+
+- (void)replay:(BOOL)autoPlay;
+
+- (void)pause;
+
+- (void)seek:(NSTimeInterval)value;
 
 - (void)setConfiguration:(SHPlayerConfig *)configuration;
 
@@ -65,11 +125,19 @@
 
 -(NSURL*)getURLPlayer;
 
+-(void)deleteAllLogFile;
+
+-(void)deleteLogFileByName:(NSString*)name;
+
+@property (nonatomic, readonly) NSString* logDir;
+
+@property (nonatomic) NSDictionary* extraLog;
+
+- (UIImage *)screenshotFromPlayer;
+
+- (NSString*)getImageByAPI:(int)second error:(NSError**)error;
+
 @property (nonatomic, weak) id<SHViewControllerDelegate> delegate;
-
-@property (nonatomic, weak) id<SHSourceURLProvider> customSourceURLProvider;
-
-@property (nonatomic, strong) SHController *playerController;
 
 /**
  *  Block which notifies that the full screen has been toggeled, when assigning to this block the default full screen behaviour will be canceled and the full screen handling will be your reponsibility. 
@@ -79,8 +147,6 @@
 
 /// Enables to change the player configuration
 @property (nonatomic, strong) SHPlayerConfig *currentConfiguration;
-
-
 
 /// Change the source and returns the current source
 @property (nonatomic, copy) NSURL *playerSource;
@@ -113,7 +179,7 @@ typedef NS_ENUM(NSInteger, KDPAPIState) {
 	@property	SHPlayer
 	@abstract	The player from which to source the media content for the view controller.
  */
-@property (nonatomic, readonly) id<SHPlayer> SHPlayer;
+//@property (nonatomic, readonly) id<SHPlayer> SHPlayer;
 
 
 - (void)registerReadyEvent:(void(^)(void))handler;
@@ -170,13 +236,15 @@ typedef NS_ENUM(NSInteger, KDPAPIState) {
 /// Wraps triggerEvent:withValue: method by block syntax.
 @property (nonatomic, copy, readonly) void (^triggerEvent)(NSString *event, NSString *value);
 
-/* The device manager used for the currently casting media. */
-@property(weak, nonatomic) ChromecastDeviceController *castDeviceController;
-
 @property (nonatomic) BOOL showControls;
 
 @property (nonatomic) BOOL autoPlay;
 
+-(void)pauseAds;
+-(void)playAds;
+-(BOOL)isPlayingAd;
+
+-(void)setIMAEventDelegate:(id)delegate;
 
 @end
 

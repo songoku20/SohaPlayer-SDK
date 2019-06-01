@@ -8,7 +8,7 @@
 e
 Pod::Spec.new do |s|
   s.name             = 'SohaPlayerV2'
-  s.version          = '0.1.8'
+  s.version          = '1.1.8'
   s.summary          = 'Everything about this project under our ownership'
 
 # This description is used to generate tags and improve search results.
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.license          = 'MIT'
   s.author           = { 'songoku20' => 'sonleminh@vccorp.vn' }
   # s.source           = { :git => 'https://github.com/songoku20/SohaPlayerV2.git', :tag => s.version.to_s }
-  s.source           = { :http => "https://github.com/songoku20/SohaPlayer-SDK/releases/download/0.1.8/SohaPlayerV2-0.1.8.zip" }
+  s.source           = { :http => "https://github.com/songoku20/SohaPlayer-SDK/releases/download/1.1.2-dev/SohaPlayerV2-1.1.8" }
 
   # s.ios.deployment_target = '8.0'
   s.source_files = 'SohaPlayerV2/Classes/**/*'

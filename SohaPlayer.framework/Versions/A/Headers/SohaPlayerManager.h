@@ -2,12 +2,14 @@
 //  SohaPlayerManager.h
 //  SohaPlayer
 //
-//  Created by Le Minh Son on 10/10/18.
-//  Copyright © 2018 Le Cuong. All rights reserved.
+//  Created by Hung Nguyen Thac on 10/10/18.
+//  Copyright © 2018 Hung Nguyen. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import "SohaPlayer/SHViewController.h"
+
+//update seek from end video 
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -119,6 +121,9 @@ typedef enum {
 
     -(void)registerPluginEvent:(NSString*)key callback:(void(^)(NSString* keyName,NSDictionary *dict))callback;
 
+    -(PermissionState)getPermissionPlayer;
+
+    -(void)authenPlayerSynchronous;
 @end
 
 NS_ASSUME_NONNULL_END

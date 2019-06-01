@@ -53,7 +53,9 @@ typedef enum{
 @property (nonatomic) float volume NS_AVAILABLE(10_7, 7_0);
 @property (nonatomic, getter=isMuted) BOOL mute NS_AVAILABLE(10_7, 7_0);
 @property (nonatomic, readonly) BOOL isSHPlayer;
+@property (nonatomic, readonly) BOOL isPlaying;
 
+@property (nonatomic, readonly) BOOL isReplay;
 
 - (void)setCurrentPlaybackTime:(NSTimeInterval)currentPlaybackTime enableUpdate:(BOOL)enableUpdate;
 - (instancetype)initWithParentView:(UIView *)parentView;
@@ -61,9 +63,11 @@ typedef enum{
 - (NSURL *)playerSource;
 - (void)play;
 - (void)pause;
+- (void)replay:(BOOL)autoPlay;
 - (void)removePlayer;
 - (void)updateCurrentTime:(NSTimeInterval )time;
 - (void)setlayerGravity:(AVLayerVideoGravity)gravity;
+
 @optional
 
 - (void)enableTracks:(BOOL)isEnablingTracks;
@@ -80,6 +84,6 @@ typedef enum{
 - (void)player:(id<SHPlayer>)currentPlayer eventName:(NSString *)event value:(NSString *)value error:(NSError *)error;
 - (void)player:(id<SHPlayer>)currentPlayer eventName:(NSString *)event JSON:(NSString *)jsonString;
 - (void)contentCompleted:(id<SHPlayer>)currentPlayer;
-
+- (BOOL)isAdPlaying;
 @end
 

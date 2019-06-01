@@ -52,6 +52,7 @@ typedef void (^timeVideoLiveResponse)(float start_time, float end_time, float cu
 @property (nonatomic, copy) NSString *ks;
 @property (nonatomic, copy) NSString *entryId;
 @property (nonatomic, copy) NSString *advertiserID;
+//@property (nonatomic, copy) NSString *advertiserMicroID;
 @property (nonatomic) BOOL enableHover;
 
 @property (nonatomic, copy) NSDictionary* supportedMediaFormats;
