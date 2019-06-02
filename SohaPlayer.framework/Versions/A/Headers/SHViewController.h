@@ -12,7 +12,6 @@
 #import "SHViewControllerProtocols.h"
 #import "SHPlayerConfig.h"
 #import "SHAdManager.h"
-//#import "SHIMAPlayerViewController.h"
 // -----------------------------------------------------------------------------
 // Media Player Types
 
@@ -77,9 +76,13 @@ extern NSString * const SHMediaPlaybackStateKey;
 /// @return Duration of the current video
 -(NSTimeInterval) duration;
 /* The volume of the player. */
--(float) volume NS_AVAILABLE(10_7, 7_0);
-/* Mute or UnMute the player. */
--(BOOL) mute NS_AVAILABLE(10_7, 7_0);
+-(float) volume;
+/* state mute or unmute of the player. */
+-(BOOL) isMuted;
+/* set mute or unmute of the player. */
+-(void)setMute:(BOOL)isMute ;
+/*Return state of player*/
+-(BOOL)isplaying;
 
 /// Perfoms seek to the currentPlaybackTime and returns the currentPlaybackTime
 -(NSTimeInterval) currentPlaybackTime;
@@ -98,6 +101,8 @@ extern NSString * const SHMediaPlaybackStateKey;
 - (void)replay:(BOOL)autoPlay;
 
 - (void)pause;
+
+- (void)seekFloat:(float)value;
 
 - (void)seek:(NSTimeInterval)value;
 
@@ -241,7 +246,9 @@ typedef NS_ENUM(NSInteger, KDPAPIState) {
 @property (nonatomic) BOOL autoPlay;
 
 -(void)pauseAds;
+
 -(void)playAds;
+
 -(BOOL)isPlayingAd;
 
 -(void)setIMAEventDelegate:(id)delegate;
