@@ -54,8 +54,10 @@ typedef enum{
 @property (nonatomic, getter=isMuted) BOOL mute NS_AVAILABLE(10_7, 7_0);
 @property (nonatomic, readonly) BOOL isSHPlayer;
 @property (nonatomic, readonly) BOOL isPlaying;
-
+@property (nonatomic) BOOL isCheckAuthen;
 @property (nonatomic, readonly) BOOL isReplay;
+@property (nonatomic) BOOL autoPlay;
+
 
 - (void)setCurrentPlaybackTime:(NSTimeInterval)currentPlaybackTime enableUpdate:(BOOL)enableUpdate;
 - (instancetype)initWithParentView:(UIView *)parentView;
@@ -63,10 +65,15 @@ typedef enum{
 - (NSURL *)playerSource;
 - (void)play;
 - (void)pause;
+- (void)changeRatePlayer:(float)rate;
 - (void)replay:(BOOL)autoPlay;
 - (void)removePlayer;
 - (void)updateCurrentTime:(NSTimeInterval )time;
 - (void)setlayerGravity:(AVLayerVideoGravity)gravity;
+
+- (void)backTo2SecondsPlayer:(float)currentPlaybackTime;
+
+//- (void)checkReauthenPlayer:(void(^)(int code,NSString* message))completion;
 
 @optional
 

@@ -61,57 +61,158 @@ extern NSString * const SHMediaPlaybackStateKey;
 @protocol SHViewControllerDelegate <NSObject>
 
 @optional
+/**
+ * Current playback time delegate.
+ * @param currentPlaybackTime current time player playing.
+ */
 - (void)updateCurrentPlaybackTime:(double)currentPlaybackTime;
+
+/**
+ * Current playload time delegate.
+ * @param currentPlayloadTime current time player loaded.
+ */
 - (void)updateCurrentPlayloadTime:(double)currentPlayloadTime;
+
+/**
+ * Player change load state delegate.
+ * @param state SHMediaLoadState player changed.
+ */
 - (void)SHPlayer:(SHViewController *)player playerLoadStateDidChange:(SHMediaLoadState)state;
+
+/**
+ * Player change playstate delegate.
+ * @param state SHMediaPlaybackState player changed.
+ */
 - (void)SHPlayer:(SHViewController *)player playerPlaybackStateDidChange:(SHMediaPlaybackState)state;
+
+/**
+ * Player change fullscreen mode delegate.
+ * @param isFullScreen Whether is in fullscreen mode or not.
+ */
 - (void)SHPlayer:(SHViewController *)player playerFullScreenToggled:(BOOL)isFullScreen;
+
+/**
+ * Player load failed delegate.
+ * @param error Error.
+ */
 - (void)SHPlayer:(SHViewController *)player didFailWithError:(NSError *)error;
+
+/**
+ * Advertise events delegate.
+ * @param event Event name.
+ */
 - (void)onAdsEventListener:(NSString*)event;
+
+/**
+ * Advertise progress delegate.
+ * @param mediaTime Current time advertise playing.
+ * @param totalTime Duration of advertise.
+ */
 - (void)onAdsProgressListener:(float)mediaTime totalTime:(float)totalTime;
+
+/**
+ * Player log events delegate.
+ * @param data Data log event.
+ */
+- (void)onLogEventListener:(NSDictionary*)data;
+
 @end
 
 @interface SHViewController : UIViewController
 
-/// @return Duration of the current video
+/**
+ * Get length of video.
+ * @return Duration of the current video.
+ */
 -(NSTimeInterval) duration;
-/* The volume of the player. */
--(float) volume;
-/* state mute or unmute of the player. */
--(BOOL) isMuted;
-/* set mute or unmute of the player. */
--(void)setMute:(BOOL)isMute ;
-/*Return state of player*/
--(BOOL)isplaying;
 
-/// Perfoms seek to the currentPlaybackTime and returns the currentPlaybackTime
+/**
+ * Get volume of video.
+ * @return The volume of the player.
+ */
+-(float) volume;
+
+- (void)setVolume:(float)value;
+
+/**
+ * Get whether player is muted.
+ * @return State mute or unmute of the player.
+ */
+-(BOOL) isMuted;
+
+/**
+ * Set mute or unmute of the player.
+ */
+-(void)setMute:(BOOL)isMute;
+
+/**
+ * Get whether player is playing.
+ * @return State of player.
+ */
+-(BOOL)isPlaying;
+
+/**
+ * Get current time of player.
+ * @return The currentPlaybackTime.
+ */
 -(NSTimeInterval) currentPlaybackTime;
 
-/* The current playback state of the movie player. (read-only)
- The playback state is affected by programmatic calls to play, pause the SHPlayer. */
-/* The current load state of the SHPlayer. (read-only). */
-//-(SHMediaLoadState) loadState;
-//-(SHMediaPlaybackState) playbackState;
-//@property (nonatomic) SHMediaLoadState loadState;
-
+/**
+ * Get current playback state of player. (read-only)
+ * The playback state is affected by programmatic calls to play, pause the player.
+ * @return The getPlaybackState.
+ */
 -(SHMediaPlaybackState)getPlaybackState;
 
+/**
+ * Call play player.
+ */
 - (void)play;
 
+/**
+ * Call replay player.
+ * @param autoPlay replay player with play or pause mode.
+ */
 - (void)replay:(BOOL)autoPlay;
 
+/**
+ * Call pause player.
+ */
 - (void)pause;
 
+/**
+ * Call seek player with float value.
+ * @param value Value of time by float wanna seek.
+ */
 - (void)seekFloat:(float)value;
 
+/**
+ * Call seek player with NSTimeInterval value.
+ * @param value Value of time by NSTimeInterval wanna seek.
+ */
 - (void)seek:(NSTimeInterval)value;
 
+///**
+// * Call seek player with NSTimeInterval value.
+// * @param value Value of time by NSTimeInterval wanna seek.
+// * @param completionHandle block handle seek completion.
+// */
+//- (void)seek:(NSTimeInterval)value completion:(void(^)(BOOL finished))completionHandle;
+
+/**
+ * Set config for player.
+ * @param configuration Config define by SHPlayerConfig.
+ */
 - (void)setConfiguration:(SHPlayerConfig *)configuration;
 
-- (void)loadPlayerIntoViewController:(UIViewController *)parentViewController;
-
+/**
+ * Remove player.
+ */
 - (void)removePlayer;
 
+/**
+ * Reset player.
+ */
 - (void)resetPlayer;
 
 - (void)changeMedia:(NSString *)entryID;
@@ -122,33 +223,72 @@ extern NSString * const SHMediaPlaybackStateKey;
 
 -(void)setPlayerKey:(NSString*) key;
 
+/**
+ * Get whether player is in fullscreen mode.
+ * @return State of fullscreen.
+ */
 - (BOOL)isFullscreen;
 
+/**
+ * Set player in fullscreen mode.
+ */
 - (void)toggleFullscreen;
 
+/**
+ * Get player key.
+ * @return Player key.
+ */
 -(NSString*) getPlayerKey;
 
+/**
+ * Get player URL.
+ * @return Player URL.
+ */
 -(NSURL*)getURLPlayer;
 
+/**
+ * Delete all log files.
+ */
 -(void)deleteAllLogFile;
 
+/**
+ * Delete all log files.
+ */
 -(void)deleteLogFileByName:(NSString*)name;
 
-@property (nonatomic, readonly) NSString* logDir;
-
-@property (nonatomic) NSDictionary* extraLog;
-
+/**
+ * Get image at current time.
+ * @return Screenshot image.
+ */
 - (UIImage *)screenshotFromPlayer;
 
+/**
+ * Get image at any time.
+ * @param second Time get image.
+ * @param error Get image with error.
+ * @return Url of image.
+ */
 - (NSString*)getImageByAPI:(int)second error:(NSError**)error;
 
+/**
+ * Log folder path. (readonly)
+ */
+@property (nonatomic, readonly) NSString* logDir;
+
+/**
+ * Set or get extra log when logging.
+ */
+@property (nonatomic) NSDictionary* extraLog;
+
+/**
+ * SHViewController delegate.
+ */
 @property (nonatomic, weak) id<SHViewControllerDelegate> delegate;
 
 /**
  *  Block which notifies that the full screen has been toggeled, when assigning to this block the default full screen behaviour will be canceled and the full screen handling will be your reponsibility. 
  */
 @property (nonatomic, copy) void(^fullScreenToggeled)(BOOL isFullScreen);
-
 
 /// Enables to change the player configuration
 @property (nonatomic, strong) SHPlayerConfig *currentConfiguration;
@@ -217,6 +357,10 @@ typedef NS_ENUM(NSInteger, KDPAPIState) {
            withValue:(NSString *)value;
 
 - (void)releaseAndSavePosition;
+
+/**
+ * Resume player
+ */
 - (void)resumePlayer;
 
 
@@ -243,15 +387,143 @@ typedef NS_ENUM(NSInteger, KDPAPIState) {
 
 @property (nonatomic) BOOL showControls;
 
-@property (nonatomic) BOOL autoPlay;
+/**
+ * Player whether play or pause when start a new video.
+ */
+@property (nonatomic, setter=setAutoPlayVideo:) BOOL autoPlay;
 
+/**
+ * Player whether write log to files or send delegate by SHViewControllerDelegate onLogEventListener:.
+ */
+@property (nonatomic, setter=setEnableWriteToFile:) BOOL enableWriteToFile;
+
+/**
+ * Pause advertise.
+ */
 -(void)pauseAds;
 
+/**
+ * Play advertise.
+ */
 -(void)playAds;
 
+/**
+ * isPlayingAd.
+ * @return whether ad is playing.
+ */
 -(BOOL)isPlayingAd;
 
--(void)setIMAEventDelegate:(id)delegate;
+/**
+ * Set mute or unmute ad.
+ * @param muted Whether ad is muted.
+ */
+-(void)muteAds:(BOOL)muted;
 
+/**
+ * Put more ad.
+ * @param urlStr Url ad wanna put more.
+ */
+-(void)putMoreAds:(NSString*)urlStr;
+
+/**
+ * Skip ad.
+ */
+-(void)skipAds;
+
+/**
+ * Get ad marker will show.
+ * @return Array of string time marker.
+ */
+-(NSArray*)getMarkerShowAds;
+
+/**
+ * Get ad marker showed.
+ * @return Array of string time marker.
+ */
+-(NSArray*)getMarkerShowed;
+
+/**
+ * Get length of advertise.
+ * @return Duration of the current advertise.
+ */
+-(float)getDurationAds;
+
+/**
+ * Get current time of advertise.
+ * @return The current time advertise is playing.
+ */
+-(float)getCurrentTimeAds;
+
+/**
+ * Get current volume of advertise.
+ * @return The current volume advertise.
+ */
+-(float)getVolumeAds;
+
+/**
+ * Get whether current player is muted or not.
+ * @return Whether player advertise is muted.
+ */
+-(BOOL) isMutedAds;
+
+/**
+ * Set volume for advertise.
+ * @param volume The value of volume to set.
+ */
+-(void) setVolumeAds:(float)volume;
+
+/**
+ * Get advertise view.
+ * @return The current advertise view.
+ */
+-(UIView*)getAdView;
+
+/**
+ * Get current info of advertise.
+ * @return The current info advertise.
+ */
+-(NSDictionary*)getCurrentAd;
+
+/**
+ * Set time offset (time start) for advertise.
+ * @param timeOffset Time offset.
+ */
+-(void)setTimeOffsetDefault:(int)timeOffset;
+
+/**
+ * Set whether skip all advertises or skip one advertise.
+ * @param skipAllAds Skip all or one.
+ */
+-(void)setSkipAllAdWhenPress:(BOOL)skipAllAds;
+
+/**
+ * Set whether play multiple advertises or play one advertise at time.
+ * @param playMultiAds play all or one.
+ */
+-(void)setPlayerMultiAdWhenRun:(BOOL)playMultiAds;
+
+/**
+ * Get whether advertises isSkipAllAds.
+ * @return isSkipAllAds.
+ */
+-(BOOL)isSkipAllAds;
+
+/**
+ * Get whether advertises isPlayMultiAds.
+ * @return isPlayMultiAds.
+ */
+-(BOOL)isPlayMultiAds;
+
+/**
+ * Get number of viewers livestream source.
+ * @return getLivestreamViewers.
+ */
+-(int)getLivestreamViewers;
+
+/**
+ * Get viewers livestream source asynchronous .
+ * @param completionHandle is successed, number of viewers and exception.
+ */
+-(void)getLivestreamViewersWithCompletion:(void(^)(BOOL success, int viewers, NSError* err))completionHandle;
 @end
 

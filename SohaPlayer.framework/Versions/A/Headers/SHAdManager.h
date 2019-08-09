@@ -51,8 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
 #define    ADPERIODENDED                   @"adperiodended"
 #define    LINKREQUESTEMPTY                  @"linkRequestEmpty"
 
-
-
 @protocol SHAdEventDelegate <NSObject>
 
 -(void) onAdsEventListener:(NSString*)event;
@@ -84,13 +82,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(NSString*)currentUrlContentPlayer;
 
-
 @end
 
 @interface SHAdManager : NSObject
 
-@property(nonatomic, setter=setPlayAdMultiWhenComplete:) BOOL playMultiAds;
-@property(nonatomic, setter=setSkipAllAdsWhenPress:) BOOL skipAllAds;
 @property(nonatomic,weak, setter=setSHAdEventDelegate:) id<SHAdEventDelegate> shAdEventDelegate;
 
 -(instancetype)init:(id<SHPlayerContentDelegate>)playerContentDelegate;
@@ -98,12 +93,16 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)requestAds:(NSString*)urlStr;
 
 -(void)requestAds:(NSString*)urlStr reset:(BOOL)reset;
+//
+-(void)putMoreAds:(NSString*)urlStr;
 
 -(void) resumeAds;
 
 -(void) pauseAds;
-
+//
 -(void) muteAds:(BOOL)muted;
+
+-(BOOL) isMutedAds;
 
 -(void) skipAds;
 
@@ -121,9 +120,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(float) getVolumeAds;
 
+-(void) setVolumeAds:(float)volume;
+
 -(UIView*)getAdView;
 
 -(NSDictionary*) getCurrentAd;
+
+-(void)setTimeOffsetDefault:(int)timeOffset;
+
+-(void)setSkipAllAdWhenPress:(BOOL)skipAllAds;
+
+-(void)setPlayerMultiAdWhenRun:(BOOL)playMultiAds;
+
+-(BOOL)isSkipAllAds;
+
+-(BOOL)isPlayMultiAds;
+
+-(void)onListenVideoContentSeeked:(NSString*)startPoint endPoint:(NSString*)endPoint;
 
 @end
 

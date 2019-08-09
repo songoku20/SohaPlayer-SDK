@@ -123,7 +123,11 @@ typedef enum {
 
     -(PermissionState)getPermissionPlayer;
 
-    -(void)authenPlayerSynchronous;
+    -(void)authenPlayerSynchronous:(void(^)(int code,NSString* message))completion;
+
+    -(void)removeDelegateGetBandwidth;
+
+    @property (nonatomic,readonly) CGFloat speed;
 @end
 
 NS_ASSUME_NONNULL_END
