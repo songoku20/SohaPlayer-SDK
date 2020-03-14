@@ -50,6 +50,14 @@ NS_ASSUME_NONNULL_BEGIN
 #define    ADPERIODSTARTED                   @"adperiodstarted"
 #define    ADPERIODENDED                   @"adperiodended"
 #define    LINKREQUESTEMPTY                  @"linkRequestEmpty"
+#define    PLAYED3S                  @"played3s"
+
+
+typedef NS_ENUM(NSInteger, AdViewType) {
+    AD_VIEW_TITLE = 0,
+    AD_VIEW_PROGRESS,
+    AD_VIEW_MUTE
+};
 
 @protocol SHAdEventDelegate <NSObject>
 
@@ -110,6 +118,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(BOOL) isPlayingAds;
 
+-(BOOL) isPlayingVideoAds;
+
 -(NSArray*) getMarkerShowAds;
 
 -(NSArray*) getMarkerShowed;
@@ -132,12 +142,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)setPlayerMultiAdWhenRun:(BOOL)playMultiAds;
 
+-(void)setIsPlayingOnBackground:(BOOL)isPlayingOnBackground;
+
 -(BOOL)isSkipAllAds;
 
 -(BOOL)isPlayMultiAds;
 
 -(void)onListenVideoContentSeeked:(NSString*)startPoint endPoint:(NSString*)endPoint;
 
+#pragma Show/Hide view
+-(void)setShowHide:(AdViewType)viewType hide:(BOOL)hideView;
+
+-(void) setImageMute:(UIImage*)image;
+
+-(void)resetAll;
+
+-(BOOL)adIsShowAfter;
+
+-(NSString*)getCurrentAdsVideoId;
 @end
 
 NS_ASSUME_NONNULL_END

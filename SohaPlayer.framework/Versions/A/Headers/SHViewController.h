@@ -2,8 +2,8 @@
 //  SHViewController.h
 //  SohaPlayer
 //
-//  Created by Le Cuong on 10/14/16.
-//  Copyright © 2016 Le Cuong. All rights reserved.
+//  Created by Hung Nguyen on 10/14/16.
+//  Copyright © 2016 Hung Nguyen. All rights reserved.
 //
 
 
@@ -15,9 +15,14 @@
 // -----------------------------------------------------------------------------
 // Media Player Types
 
+#define PLAYER_VERSION @"1.3.7-dev"
+
 typedef NS_ENUM(NSInteger, SHMediaPlaybackState) {
+    /* Playback is unknown. */
     SHMediaPlaybackStateUnknown = 0,
+    /* Playback is currently loaded. */
     SHMediaPlaybackStateLoaded = 1,
+    /* Playback is currently ready. */
     SHMediaPlaybackStateReady = 2,
     /* Playback is currently under way. */
     SHMediaPlaybackStatePlaying = 3,
@@ -30,7 +35,13 @@ typedef NS_ENUM(NSInteger, SHMediaPlaybackState) {
     /* The movie player is currently seeking towards the end of the movie. */
     SHMediaPlaybackStateSeekingForward = 7,
     /* The movie player is currently seeking towards the beginning of the movie. */
-    SHMediaPlaybackStateSeekingBackward = 8
+    SHMediaPlaybackStateSeekingBackward = 8,
+    /* Playback is currently stalled. */
+    SHMediaPlaybackStateStalled = 9,
+    /* Playback is currently unstalled. */
+    SHMediaPlaybackStateUnStalled = 10,
+    /* Playback is currently freeze, player must be reload. */
+    SHMediaPlaybackStateFreeze = 11
 };
 
 
@@ -51,6 +62,19 @@ typedef NS_OPTIONS(NSUInteger, SHMediaLoadState) {
 };
 
 
+typedef NS_ENUM(int, SHAPIRequestType){
+    /* Normal */
+    SHAPIRequestNormal = 0,
+    /* HeartBeat */
+    SHAPIRequestHeartBeat = 1,
+    /* Source */
+    SHAPIRequestSourceLive = 2,
+    /* Online Source */
+    SHAPIRequestOnlineSourceReceive = 3,
+    /* Key Header */
+    SHAPIRequestContainKeyHeader = 4
+};
+
 extern NSString * const SHMediaPlaybackStateDidChangeNotification;
 
 // -----------------------------------------------------------------------------
@@ -67,42 +91,49 @@ extern NSString * const SHMediaPlaybackStateKey;
  */
 - (void)updateCurrentPlaybackTime:(double)currentPlaybackTime;
 
+@optional
 /**
  * Current playload time delegate.
  * @param currentPlayloadTime current time player loaded.
  */
 - (void)updateCurrentPlayloadTime:(double)currentPlayloadTime;
 
+@optional
 /**
  * Player change load state delegate.
  * @param state SHMediaLoadState player changed.
  */
 - (void)SHPlayer:(SHViewController *)player playerLoadStateDidChange:(SHMediaLoadState)state;
 
+@optional
 /**
  * Player change playstate delegate.
  * @param state SHMediaPlaybackState player changed.
  */
 - (void)SHPlayer:(SHViewController *)player playerPlaybackStateDidChange:(SHMediaPlaybackState)state;
 
+@optional
 /**
  * Player change fullscreen mode delegate.
  * @param isFullScreen Whether is in fullscreen mode or not.
  */
 - (void)SHPlayer:(SHViewController *)player playerFullScreenToggled:(BOOL)isFullScreen;
 
+@optional
 /**
  * Player load failed delegate.
  * @param error Error.
  */
 - (void)SHPlayer:(SHViewController *)player didFailWithError:(NSError *)error;
 
+@optional
 /**
  * Advertise events delegate.
  * @param event Event name.
  */
 - (void)onAdsEventListener:(NSString*)event;
 
+@optional
 /**
  * Advertise progress delegate.
  * @param mediaTime Current time advertise playing.
@@ -110,12 +141,23 @@ extern NSString * const SHMediaPlaybackStateKey;
  */
 - (void)onAdsProgressListener:(float)mediaTime totalTime:(float)totalTime;
 
+@optional
 /**
  * Player log events delegate.
  * @param data Data log event.
  */
 - (void)onLogEventListener:(NSDictionary*)data;
 
+@optional
+/**
+ * HeartBeat log events delegate.
+ * @param status status heartBeat.
+ * @param backgroundLive backgroundLive heartBeat.
+ * @param titleLive backgroundLive heartBeat.
+ * @param timeEventLive timeEventLive heartBeat.
+ * @param source source heartBeat.
+ */
+- (void)onHeartBeat:(NSString* _Nullable)status backgroundLive:(NSString* _Nullable)backgroundLive titleLive:(NSString* _Nullable)titleLive timeEventLive:(long long)timeEventLive source:(NSString* _Nullable )source;
 @end
 
 @interface SHViewController : UIViewController
@@ -525,5 +567,52 @@ typedef NS_ENUM(NSInteger, KDPAPIState) {
  * @param completionHandle is successed, number of viewers and exception.
  */
 -(void)getLivestreamViewersWithCompletion:(void(^)(BOOL success, int viewers, NSError* err))completionHandle;
+
+/**
+ * Player whether play or pause in background mode.
+ */
+@property (nonatomic, setter=setIsPlayingOnBackground:) BOOL isPlayingOnBackground;
+
+/**
+ * Ads whether playing ad or pausing ad when showed.
+ */
+-(BOOL) isPlayingVideoAds;
+
+/**
+ * Ads set show and hide view.
+ */
+-(void)setShowHide:(AdViewType)viewType hide:(BOOL)hideView;
+
+/**
+ * Ads set image mute button view.
+ */
+-(void)setImageMute:(UIImage*)image;
+
+/**
+ * Call reload player.
+ */
+-(void)reloadPlayer;
+
+/**
+ * Player is playing live source.
+ * @return isLiveSrc.
+ */
+-(BOOL)isLiveSrc;
+
+/**
+ * Player is stalled.
+ * @return isStallVideo.
+ */
+-(BOOL)isStallVideo;
+
+/**
+ * Player whether show heartbeat view.
+ */
+@property (nonatomic) BOOL showViewHeartBeat;
+
+/**
+ * Reload background image heartbeat.
+ */
+-(void)reloadBackgroundImageHB;
 @end
 

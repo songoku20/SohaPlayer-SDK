@@ -34,15 +34,21 @@ typedef enum {
  */
 -(void) onPrepare;
 
+@optional
+
 /**
  * Reponse when player start prepare and notify for user initializing player manager
  */
 -(void) onInitializing;
 
+@optional
+
 /**
  * Reponse when create player managerment successfully
  */
 -(void) onInitSuccessfully;
+
+@optional
 
 /**
  * Response error when initialize for player manager
@@ -125,9 +131,13 @@ typedef enum {
 
     -(void)authenPlayerSynchronous:(void(^)(int code,NSString* message))completion;
 
+    -(void)getBandwidth;
+
     -(void)removeDelegateGetBandwidth;
 
-    @property (nonatomic,readonly) CGFloat speed;
+    @property (nonatomic, readonly) float speed;
+
+    @property (nonatomic, readonly) BOOL isGettingBandwidth;
 @end
 
 NS_ASSUME_NONNULL_END

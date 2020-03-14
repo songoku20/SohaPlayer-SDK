@@ -57,6 +57,8 @@ typedef enum{
 @property (nonatomic) BOOL isCheckAuthen;
 @property (nonatomic, readonly) BOOL isReplay;
 @property (nonatomic) BOOL autoPlay;
+@property (nonatomic, readonly) BOOL isStallPlayer;
+@property (nonatomic) NSURL* currentPlayerSource;
 
 
 - (void)setCurrentPlaybackTime:(NSTimeInterval)currentPlaybackTime enableUpdate:(BOOL)enableUpdate;
@@ -65,15 +67,20 @@ typedef enum{
 - (NSURL *)playerSource;
 - (void)play;
 - (void)pause;
+- (void)reset;
 - (void)changeRatePlayer:(float)rate;
 - (void)replay:(BOOL)autoPlay;
 - (void)removePlayer;
 - (void)updateCurrentTime:(NSTimeInterval )time;
 - (void)setlayerGravity:(AVLayerVideoGravity)gravity;
-
 - (void)backTo2SecondsPlayer:(float)currentPlaybackTime;
-
+- (BOOL)isLiveSrc;
+- (NSInteger)getDropFrames;
+- (NSString*)getPlaybackType;
 //- (void)checkReauthenPlayer:(void(^)(int code,NSString* message))completion;
+//-(void)pauseWithoutLog;
+
+//-(void)playWithoutLog;
 
 @optional
 
