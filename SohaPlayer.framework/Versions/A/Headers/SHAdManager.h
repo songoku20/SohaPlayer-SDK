@@ -159,7 +159,6 @@ typedef NS_ENUM(NSInteger, AdViewType) {
 
 -(BOOL)adIsShowAfter;
 
--(NSString*)getCurrentAdsVideoId;
 @end
 
 NS_ASSUME_NONNULL_END

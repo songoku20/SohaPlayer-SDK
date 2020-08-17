@@ -3,7 +3,7 @@
 //  SohaPlayer
 //
 //  Created by Hưng Nguyễn Thạc on 11/20/18.
-//  Copyright © 2018 Hung Nguyen. All rights reserved.
+//  Copyright © 2018 Le Cuong. All rights reserved.
 //
 
 static NSString* USER_SEEK = @"USER_SEEK",

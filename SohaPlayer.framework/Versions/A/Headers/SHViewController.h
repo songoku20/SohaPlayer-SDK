@@ -2,8 +2,8 @@
 //  SHViewController.h
 //  SohaPlayer
 //
-//  Created by Hung Nguyen on 10/14/16.
-//  Copyright © 2016 Hung Nguyen. All rights reserved.
+//  Created by Le Cuong on 10/14/16.
+//  Copyright © 2016 Le Cuong. All rights reserved.
 //
 
 
@@ -12,10 +12,11 @@
 #import "SHViewControllerProtocols.h"
 #import "SHPlayerConfig.h"
 #import "SHAdManager.h"
+
+#define PLAYER_VERSION @"1.3.5-beta-1"
+
 // -----------------------------------------------------------------------------
 // Media Player Types
-
-#define PLAYER_VERSION @"1.3.7-dev"
 
 typedef NS_ENUM(NSInteger, SHMediaPlaybackState) {
     /* Playback is unknown. */
@@ -61,19 +62,6 @@ typedef NS_OPTIONS(NSUInteger, SHMediaLoadState) {
     
 };
 
-
-typedef NS_ENUM(int, SHAPIRequestType){
-    /* Normal */
-    SHAPIRequestNormal = 0,
-    /* HeartBeat */
-    SHAPIRequestHeartBeat = 1,
-    /* Source */
-    SHAPIRequestSourceLive = 2,
-    /* Online Source */
-    SHAPIRequestOnlineSourceReceive = 3,
-    /* Key Header */
-    SHAPIRequestContainKeyHeader = 4
-};
 
 extern NSString * const SHMediaPlaybackStateDidChangeNotification;
 
@@ -148,16 +136,6 @@ extern NSString * const SHMediaPlaybackStateKey;
  */
 - (void)onLogEventListener:(NSDictionary*)data;
 
-@optional
-/**
- * HeartBeat log events delegate.
- * @param status status heartBeat.
- * @param backgroundLive backgroundLive heartBeat.
- * @param titleLive backgroundLive heartBeat.
- * @param timeEventLive timeEventLive heartBeat.
- * @param source source heartBeat.
- */
-- (void)onHeartBeat:(NSString* _Nullable)status backgroundLive:(NSString* _Nullable)backgroundLive titleLive:(NSString* _Nullable)titleLive timeEventLive:(long long)timeEventLive source:(NSString* _Nullable )source;
 @end
 
 @interface SHViewController : UIViewController
@@ -605,14 +583,5 @@ typedef NS_ENUM(NSInteger, KDPAPIState) {
  */
 -(BOOL)isStallVideo;
 
-/**
- * Player whether show heartbeat view.
- */
-@property (nonatomic) BOOL showViewHeartBeat;
-
-/**
- * Reload background image heartbeat.
- */
--(void)reloadBackgroundImageHB;
 @end
 

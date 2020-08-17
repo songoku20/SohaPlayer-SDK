@@ -59,27 +59,25 @@ typedef enum{
 @property (nonatomic) BOOL autoPlay;
 @property (nonatomic, readonly) BOOL isStallPlayer;
 @property (nonatomic) NSURL* currentPlayerSource;
-
+@property (nonatomic) NSString* currentVid;
 
 - (void)setCurrentPlaybackTime:(NSTimeInterval)currentPlaybackTime enableUpdate:(BOOL)enableUpdate;
 - (instancetype)initWithParentView:(UIView *)parentView;
-- (void)setPlayerSource:(NSURL *)playerSource;
+- (void)setPlayerSource:(NSURL *)playerSource vid:(NSString*)vid;
 - (NSURL *)playerSource;
 - (void)play;
 - (void)pause;
-- (void)reset;
 - (void)changeRatePlayer:(float)rate;
 - (void)replay:(BOOL)autoPlay;
 - (void)removePlayer;
 - (void)updateCurrentTime:(NSTimeInterval )time;
 - (void)setlayerGravity:(AVLayerVideoGravity)gravity;
+- (void)reload;
 - (void)backTo2SecondsPlayer:(float)currentPlaybackTime;
 - (BOOL)isLiveSrc;
-- (NSInteger)getDropFrames;
-- (NSString*)getPlaybackType;
 //- (void)checkReauthenPlayer:(void(^)(int code,NSString* message))completion;
 //-(void)pauseWithoutLog;
-
+-(NSInteger)getDropFrames;
 //-(void)playWithoutLog;
 
 @optional

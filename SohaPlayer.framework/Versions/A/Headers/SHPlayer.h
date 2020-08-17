@@ -2,8 +2,8 @@
 //  SHPlayer.h
 //  SohaPlayer
 //
-//  Created by Hung Nguyen on 10/14/16.
-//  Copyright © 2016 Hung Nguyen. All rights reserved.
+//  Created by Le Cuong on 10/14/16.
+//  Copyright © 2016 Le Cuong. All rights reserved.
 //
 
 #import "SHPlayerFactory.h"

@@ -1,0 +1,5 @@
+framework module SohaPlayer {
+    umbrella header "SohaPlayerManager.h"
+    export *
+    module * { export * }
+}

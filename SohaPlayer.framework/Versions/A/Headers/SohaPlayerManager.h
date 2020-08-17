@@ -131,9 +131,9 @@ typedef enum {
 
     -(void)authenPlayerSynchronous:(void(^)(int code,NSString* message))completion;
 
-    -(void)getBandwidth;
-
     -(void)removeDelegateGetBandwidth;
+
+    -(void)getBandwidth;
 
     @property (nonatomic, readonly) float speed;
 

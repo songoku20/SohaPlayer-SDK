@@ -2,8 +2,8 @@
 //  SHPlayerConfig.h
 //  SohaPlayer
 //
-//  Created by Hung Nguyen on 10/14/16.
-//  Copyright © 2016 Hung Nguyen. All rights reserved.
+//  Created by Le Cuong on 10/14/16.
+//  Copyright © 2016 Le Cuong. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -38,7 +38,7 @@ typedef void (^timeVideoLiveResponse)(float start_time, float end_time, float cu
 
 @property (nonatomic, readonly) NSString *secretKey;
 
-@property (nonatomic, readonly) NSString *v_id;
+//@property (nonatomic, readonly) NSString *v_id;
 
 @property (nonatomic, readonly) NSString *sourceUrl;
 
@@ -52,6 +52,7 @@ typedef void (^timeVideoLiveResponse)(float start_time, float end_time, float cu
 @property (nonatomic, copy) NSString *ks;
 @property (nonatomic, copy) NSString *entryId;
 @property (nonatomic, copy) NSString *advertiserID;
+@property (nonatomic, copy) NSString *vid;
 @property (nonatomic) int timeOffset;
 @property (nonatomic) BOOL enableHover;
 
@@ -80,7 +81,7 @@ typedef void (^timeVideoLiveResponse)(float start_time, float end_time, float cu
  */
 - (void)addConfigKey:(NSString *)key withDictionary:(NSDictionary *)dictionary;
 
-- (NSURL *)videoURL;
+//- (NSURL *)videoURL;
 
 - (NSURL *)sourceURL;
 
