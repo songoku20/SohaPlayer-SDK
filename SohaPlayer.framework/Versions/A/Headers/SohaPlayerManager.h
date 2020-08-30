@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "SohaPlayer/SHViewController.h"
 
-//update seek from end video 
+//update seek from end video
 
-NS_ASSUME_NONNULL_BEGIN
+//NS_ASSUME_NONNULL_BEGIN
 
 typedef enum{
     NON_PERMISSION = -1,
@@ -62,83 +62,56 @@ typedef enum {
 
 @interface SohaPlayerManager : NSObject
 
-    #pragma Method public for user
-    /**
-     *Init instance of player manager and return singeton instance of player manager
-     */
-    +(void) initialized:(id<OnPreparePlayerManager>) delegate;
-    /**
-     * Shared instance of place
-     */
-    +(SohaPlayerManager*) shared;
-    /**
-     *Return your permission to using player
-     */
-    -(BOOL) isAllowUsingPlayer;
-    /**
-     * Return shared instance of playermanager, that's created before.
-     */
-    -(SohaPlayerManager*)shared;
-    /**
-     * Return list mapping of player is created by user
-     */
-    -(NSMutableDictionary*)getListPlayer;
-    /**
-     * Create player and return a new instance player
-     */
-    -(SHViewController*)createPlayer:(UIView*)playerContainer;
-    /**
-     * Destroy player by key
-     */
-    -(BOOL)destroyPlayerByKey:(NSString*)playerKey;
-    /**
-     * Destroy all player
-     */
-    -(BOOL)destroyAllPlayer;
-    /**
-     * Key of player
-     */
-    -(NSString*)getKeyOfPlayer:(SHViewController*)playerController;
-    /**
-     * Get player by key
-     */
-    -(SHViewController*)getPlayerByKey:(NSString*)playerKey;
-    /**
-     *Destroy instance of player on list
-     */
-    -(void)destroyPlayer:(SHViewController*) playerController;
-    /**
-     * Get Player app key
-     */
-    -(NSString*)getAppKey;
-    /**
-     * Get Player secret key
-     */
-    -(NSString*)getSecretKey;
-    /**
-     * Get Player player id
-     */
-    -(NSString*)getPlayerId;
-    /**
-     * set Player manager delegate when player manager initialized
-     */
-    -(void)setOnPlayerPrepare:(id<OnPreparePlayerManager>)reponse;
+#pragma Method public for user
+/**
+ *Init instance of player manager and return singeton instance of player manager
+ */
++(void) initialized:(id<OnPreparePlayerManager>) delegate;
+/**
+ * Shared instance of place
+ */
++(SohaPlayerManager*) shared;
+/**
+ *Return your permission to using player
+ */
+-(BOOL) isAllowUsingPlayer;
+/**
+ * Return shared instance of playermanager, that's created before.
+ */
+-(SohaPlayerManager*)shared;
+/**
+ * Create player and return a new instance player
+ */
+-(SHViewController*)createPlayer:(UIView*)playerContainer;
+/**
+ * Get Player app key
+ */
+-(NSString*)getAppKey;
+/**
+ * Get Player secret key
+ */
+-(NSString*)getSecretKey;
+/**
+ * Get Player player id
+ */
+-(NSString*)getPlayerId;
+/**
+ * set Player manager delegate when player manager initialized
+ */
+-(void)setOnPlayerPrepare:(id<OnPreparePlayerManager>)reponse;
 
+-(PermissionState)getPermissionPlayer;
 
-    -(void)registerPluginEvent:(NSString*)key callback:(void(^)(NSString* keyName,NSDictionary *dict))callback;
+-(void)authenPlayerSynchronous:(void(^)(int code,NSString* message))completion;
 
-    -(PermissionState)getPermissionPlayer;
+-(void)getBandwidth;
 
-    -(void)authenPlayerSynchronous:(void(^)(int code,NSString* message))completion;
+-(void)removeDelegateGetBandwidth;
 
-    -(void)removeDelegateGetBandwidth;
+@property (nonatomic, readonly) float speed;
 
-    -(void)getBandwidth;
-
-    @property (nonatomic, readonly) float speed;
-
-    @property (nonatomic, readonly) BOOL isGettingBandwidth;
+@property (nonatomic, readonly) BOOL isGettingBandwidth;
 @end
 
-NS_ASSUME_NONNULL_END
+//NS_ASSUME_NONNULL_END
 

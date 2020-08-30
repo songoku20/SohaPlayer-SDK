@@ -11,9 +11,16 @@
 
 #import "SHViewControllerProtocols.h"
 #import "SHPlayerConfig.h"
-#import "SHAdManager.h"
 
-#define PLAYER_VERSION @"1.3.5-beta-1"
+@protocol SHAdEventDelegate;
+
+typedef NS_ENUM(NSInteger, AdViewTypez) {
+    AD_VIEW_TITLE = 0,
+    AD_VIEW_PROGRESS,
+    AD_VIEW_MUTE
+};
+
+#define PLAYER_VERSION @"1.3.5-pro"
 
 // -----------------------------------------------------------------------------
 // Media Player Types
@@ -62,6 +69,40 @@ typedef NS_OPTIONS(NSUInteger, SHMediaLoadState) {
     
 };
 
+
+typedef NS_ENUM(int, SHAPIRequestType){
+    /* Normal */
+    SHAPIRequestNormal = 0,
+    /* HeartBeat */
+    SHAPIRequestHeartBeat = 1,
+    /* Source */
+    SHAPIRequestSourceLive = 2,
+    /* Online Source */
+    SHAPIRequestOnlineSourceReceive = 3,
+    /* Key Header */
+    SHAPIRequestContainKeyHeader = 4
+};
+
+typedef NS_ENUM(int, SHPlayerQuality){
+    /* 144p: 256×144 */
+    SHPlayerQuality144p = 0,
+    /* 240p: 426x240 */
+    SHPlayerQuality240p = 1,
+    /* 360p: 640x360 */
+    SHPlayerQuality360p = 2,
+    /* 480p: 854x480 */
+    SHPlayerQuality480p = 3,
+    /* 720p: 1280x720 */
+    SHPlayerQuality720p = 4,
+    /* 1080p: 1920x1080 */
+    SHPlayerQuality1080p = 5,
+    /* 1440p: 2560x1440 */
+    SHPlayerQuality1440p = 6,
+    /* 2160p: 3840x2160 */
+    SHPlayerQuality2160p = 7,
+    /* Automatic */
+    SHPlayerQualityAuto = 8
+};
 
 extern NSString * const SHMediaPlaybackStateDidChangeNotification;
 
@@ -136,6 +177,16 @@ extern NSString * const SHMediaPlaybackStateKey;
  */
 - (void)onLogEventListener:(NSDictionary*)data;
 
+@optional
+/**
+ * HeartBeat log events delegate.
+ * @param status status heartBeat.
+ * @param backgroundLive backgroundLive heartBeat.
+ * @param titleLive backgroundLive heartBeat.
+ * @param timeEventLive timeEventLive heartBeat.
+ * @param source source heartBeat.
+ */
+- (void)onHeartBeat:(NSString* _Nullable)status backgroundLive:(NSString* _Nullable)backgroundLive titleLive:(NSString* _Nullable)titleLive timeEventLive:(long long)timeEventLive source:(NSString* _Nullable )source;
 @end
 
 @interface SHViewController : UIViewController
@@ -234,15 +285,6 @@ extern NSString * const SHMediaPlaybackStateKey;
  * Reset player.
  */
 - (void)resetPlayer;
-
-- (void)changeMedia:(NSString *)entryID;
-
-- (void)changeConfiguration:(SHPlayerConfig *)config;
-
--(void)setPlayerContainer:(UIView*)viewContainer;
-
--(void)setPlayerKey:(NSString*) key;
-
 /**
  * Get whether player is in fullscreen mode.
  * @return State of fullscreen.
@@ -253,18 +295,6 @@ extern NSString * const SHMediaPlaybackStateKey;
  * Set player in fullscreen mode.
  */
 - (void)toggleFullscreen;
-
-/**
- * Get player key.
- * @return Player key.
- */
--(NSString*) getPlayerKey;
-
-/**
- * Get player URL.
- * @return Player URL.
- */
--(NSURL*)getURLPlayer;
 
 /**
  * Delete all log files.
@@ -305,107 +335,16 @@ extern NSString * const SHMediaPlaybackStateKey;
  */
 @property (nonatomic, weak) id<SHViewControllerDelegate> delegate;
 
-/**
- *  Block which notifies that the full screen has been toggeled, when assigning to this block the default full screen behaviour will be canceled and the full screen handling will be your reponsibility. 
- */
-@property (nonatomic, copy) void(^fullScreenToggeled)(BOOL isFullScreen);
-
 /// Enables to change the player configuration
 @property (nonatomic, strong) SHPlayerConfig *currentConfiguration;
 
 /// Change the source and returns the current source
 @property (nonatomic, copy) NSURL *playerSource;
 
-/// Signals that a internal or external web browser has been opened or closed
-@property (nonatomic, weak) id kIMAWebOpenerDelegate;
-
-/// Assigning this handler will disable the default share action and will supply the share params for custom use.
-- (void)setShareHandler:(void(^)(NSDictionary *shareParams))shareHandler;
-
-- (void)setduration:(NSString*)duration currentTime:(NSString*)currentTime;
-
-
-#pragma mark - KDPAPIState
-// -----------------------------------------------------------------------------
-// KDP API Types
-
-typedef NS_ENUM(NSInteger, KDPAPIState) {
-    /*  Player is not ready to work with the JavaScript API. */
-    KDPAPIStateUnknown,
-    /*  Player is ready to work with the JavaScript API (jsCallbackReady). */
-    KDPAPIStateReady
-};
-
-/* The current kdp api state of the KDP API. (read-only)
- The kdp api state is affected by programmatic call to jsCallbackReady. */
-@property (nonatomic, readonly) KDPAPIState kdpAPIState;
-
-/*!
-	@property	SHPlayer
-	@abstract	The player from which to source the media content for the view controller.
- */
-//@property (nonatomic, readonly) id<SHPlayer> SHPlayer;
-
-
-- (void)registerReadyEvent:(void(^)(void))handler;
-
-
-
-//- (void)addSHPlayerEventLvoidistener:(NSString *)event eventID:(NSString *)eventID handler:(void(^)(NSString *eventName, NSString *params))handler;
-
-
-
-- (void)removeSHPlayerEventListener:(NSString *)event eventID:(NSString *)eventID;
-
-
-
-
-- (void)asyncEvaluate:(NSString *)expression expressionID:(NSString *)expressionID handler:(void(^)(NSString *value))handler;
-
-
-
-- (void)sendNotification:(NSString *)notificationName withParams:(NSString *)params;
-
-
-
-
-- (void)setKDPAttribute:(NSString *)pluginName propertyName:(NSString *)propertyName value:(NSString *)value;
-
-
-
-- (void)triggerEvent:(NSString *)event
-           withValue:(NSString *)value;
-
-- (void)releaseAndSavePosition;
-
 /**
  * Resume player
  */
 - (void)resumePlayer;
-
-
-/// Wraps registerReadyEvent: method by block syntax.
-@property (nonatomic, copy) void (^registerReadyEvent)(void(^readyCallback)(void));
-
-/// Wraps addEventListener:eventIDvoid:handler: method by block syntax.
-@property (nonatomic, copy, readonly) void (^addEventListener)(NSString *event, NSString *eventID, void(^)(NSString *eventName, NSString *params));
-
-/// Wraps removeEventListener:eventID: method by block syntax.
-@property (nonatomic, copy, readonly) void (^removeEventListener)(NSString *event, NSString *eventID);
-
-/// Wraps asyncEvaluate:expressionID:handler: method by block syntax.
-@property (nonatomic, copy, readonly) void (^asyncEvaluate)(NSString *expression, NSString *expressionID, void(^)(NSString *value));
-
-/// Wraps sendNotification:expressionID:forName: method by block syntax.
-@property (nonatomic, copy, readonly) void (^sendNotification)(NSString *notification, NSString *notificationName);
-
-/// Wraps setKDPAttribute:propertyName:value: method by block syntax.
-@property (nonatomic, copy, readonly) void (^setKDPAttribute)(NSString *pluginName, NSString *propertyName, NSString *value);
-
-/// Wraps triggerEvent:withValue: method by block syntax.
-@property (nonatomic, copy, readonly) void (^triggerEvent)(NSString *event, NSString *value);
-
-@property (nonatomic) BOOL showControls;
 
 /**
  * Player whether play or pause when start a new video.
@@ -559,7 +498,7 @@ typedef NS_ENUM(NSInteger, KDPAPIState) {
 /**
  * Ads set show and hide view.
  */
--(void)setShowHide:(AdViewType)viewType hide:(BOOL)hideView;
+-(void)setShowHide:(AdViewTypez)viewType hide:(BOOL)hideView;
 
 /**
  * Ads set image mute button view.
@@ -582,6 +521,19 @@ typedef NS_ENUM(NSInteger, KDPAPIState) {
  * @return isStallVideo.
  */
 -(BOOL)isStallVideo;
+
+/**
+ * Request ads asynchronous.
+ * @param ad String of ad.
+ * @param offset Time offset play ad.
+ */
+-(void)requestAdsAsync:(NSString*)ad offset:(int)offset;
+
+/**
+ * Remove player.
+ * @param completion remove asynchronous.
+ */
+- (void)removePlayer:(void(^)(BOOL success))completion;
 
 @end
 
