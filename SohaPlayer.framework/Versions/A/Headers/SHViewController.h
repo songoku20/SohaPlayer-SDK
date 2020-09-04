@@ -2,8 +2,8 @@
 //  SHViewController.h
 //  SohaPlayer
 //
-//  Created by Le Cuong on 10/14/16.
-//  Copyright © 2016 Le Cuong. All rights reserved.
+//  Created by Hung Nguyen on 10/14/16.
+//  Copyright © 2016 Hung Nguyen. All rights reserved.
 //
 
 
@@ -11,8 +11,8 @@
 
 #import "SHViewControllerProtocols.h"
 #import "SHPlayerConfig.h"
-
-@protocol SHAdEventDelegate;
+// -----------------------------------------------------------------------------
+// Media Player Types
 
 typedef NS_ENUM(NSInteger, AdViewTypez) {
     AD_VIEW_TITLE = 0,
@@ -20,10 +20,7 @@ typedef NS_ENUM(NSInteger, AdViewTypez) {
     AD_VIEW_MUTE
 };
 
-#define PLAYER_VERSION @"1.3.5-pro"
-
-// -----------------------------------------------------------------------------
-// Media Player Types
+#define PLAYER_VERSION @"1.4.3-pro"
 
 typedef NS_ENUM(NSInteger, SHMediaPlaybackState) {
     /* Playback is unknown. */
@@ -49,7 +46,9 @@ typedef NS_ENUM(NSInteger, SHMediaPlaybackState) {
     /* Playback is currently unstalled. */
     SHMediaPlaybackStateUnStalled = 10,
     /* Playback is currently freeze, player must be reload. */
-    SHMediaPlaybackStateFreeze = 11
+    SHMediaPlaybackStateFreeze = 11,
+    /* Playback is currently reconnecting live, wait for it. */
+    SHMediaPlaybackStateReconnectingLive = 12
 };
 
 
@@ -187,6 +186,13 @@ extern NSString * const SHMediaPlaybackStateKey;
  * @param source source heartBeat.
  */
 - (void)onHeartBeat:(NSString* _Nullable)status backgroundLive:(NSString* _Nullable)backgroundLive titleLive:(NSString* _Nullable)titleLive timeEventLive:(long long)timeEventLive source:(NSString* _Nullable )source;
+
+@optional
+/**
+ * Livestream is now offline.
+ */
+- (void)offLives;
+
 @end
 
 @interface SHViewController : UIViewController
@@ -282,10 +288,6 @@ extern NSString * const SHMediaPlaybackStateKey;
 - (void)removePlayer;
 
 /**
- * Reset player.
- */
-- (void)resetPlayer;
-/**
  * Get whether player is in fullscreen mode.
  * @return State of fullscreen.
  */
@@ -340,11 +342,6 @@ extern NSString * const SHMediaPlaybackStateKey;
 
 /// Change the source and returns the current source
 @property (nonatomic, copy) NSURL *playerSource;
-
-/**
- * Resume player
- */
-- (void)resumePlayer;
 
 /**
  * Player whether play or pause when start a new video.
@@ -523,17 +520,65 @@ extern NSString * const SHMediaPlaybackStateKey;
 -(BOOL)isStallVideo;
 
 /**
- * Request ads asynchronous.
- * @param ad String of ad.
- * @param offset Time offset play ad.
+ * Player whether show heartbeat view.
  */
+@property (nonatomic) BOOL showViewHeartBeat;
+
+/**
+ * Reload background image heartbeat.
+ */
+-(void)reloadBackgroundImageHB;
+
+/**
+ * Do not call !!!
+ */
+-(void)secureKeyVccloud;
+
+/**
+ * Do not call !!!
+ */
+-(void)generateKeyAuthen;
+
+/**
+ * Request ads asynchronus.
+ */
+
 -(void)requestAdsAsync:(NSString*)ad offset:(int)offset;
 
 /**
- * Remove player.
- * @param completion remove asynchronous.
+ * Whether or not player play with secure url.
  */
-- (void)removePlayer:(void(^)(BOOL success))completion;
+@property (nonatomic, setter=setIsSecureUrl:) BOOL isSecureUrl;
+
+/**
+ * Change quality video.
+ * @param quality SHPlayerQuality enum
+ */
+-(void)changeQuality:(SHPlayerQuality)quality NS_AVAILABLE(10_10, 8_0);
+
+/**
+ * Change quality video.
+ * @param quality String quality (eg:"240p")
+ */
+-(void)changeQualityByString:(NSString*)quality NS_AVAILABLE(10_10, 8_0);
+
+/**
+ * Get all qualities remaining.
+ * @return All string qualities.
+ */
+-(NSArray<NSString*>* _Nullable)getAllQuality;
+
+/**
+ * Get current quality.
+ * @return string quality.
+ */
+-(NSString*)currentQuality;
+
+/**
+ * Whether or not player auto reconnect live source when player freezing.
+ */
+@property (nonatomic, setter=setCancelAutoReconnectLive:) BOOL cancelAutoReconnectLive;
+
 
 @end
 

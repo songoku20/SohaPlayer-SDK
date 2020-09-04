@@ -13,8 +13,8 @@
 //static NSString *SHPlayerEventTimeupdate = @"timeupdate";
 //static NSString *SHPlayerEventProgress = @"progress";
 //static NSString *SHPlayerEventToggleFullScreen = @"toggleFullscreen";
-//
-///// Key names of the video request
+
+/// Key names of the video request
 //static NSString *SHPlayerDatasourceWidKey = @"wid";
 //static NSString *SHPlayerDatasourceUiConfIdKey = @"uiconf_id";
 //static NSString *SHPlayerDatasourceCacheStKey = @"cache_st";
@@ -23,7 +23,7 @@
 //static NSString *SHPlayerDatasourceUridKey = @"urid";
 //static NSString *SHPlayerDatasourceDebugKey = @"debug";
 //static NSString *SHPlayerDatasourceForceHtml5Key = @"forceMobileHTML5";
-//
+
 //typedef enum{
 //    // Player Content Source Url
 //    src = 0,
@@ -59,7 +59,9 @@
 @property (nonatomic) BOOL autoPlay;
 @property (nonatomic, readonly) BOOL isStallPlayer;
 @property (nonatomic) NSURL* currentPlayerSource;
+@property (nonatomic) BOOL isSecureUrl;
 @property (nonatomic) NSString* currentVid;
+@property (nonatomic) BOOL cancelAutoReconnectLive;
 
 //- (void)setCurrentPlaybackTime:(NSTimeInterval)currentPlaybackTime enableUpdate:(BOOL)enableUpdate;
 - (instancetype)initWithParentView:(UIView *)parentView;
@@ -67,19 +69,28 @@
 - (NSURL *)playerSource;
 - (void)play;
 - (void)pause;
+- (void)reset;
 //- (void)changeRatePlayer:(float)rate;
 - (void)replay:(BOOL)autoPlay;
 - (void)removePlayer;
+- (void)removePlayer:(void(^)(BOOL success))completion;
 - (void)updateCurrentTime:(NSTimeInterval )time;
 - (void)setlayerGravity:(AVLayerVideoGravity)gravity;
-- (void)reload;
 - (void)backTo2SecondsPlayer:(float)currentPlaybackTime;
 - (BOOL)isLiveSrc;
+- (NSInteger)getDropFrames;
+- (NSString*)getPlaybackType;
+- (void)setSecureParams:(NSString*)ex sign:(NSString*)sign;
 //- (void)checkReauthenPlayer:(void(^)(int code,NSString* message))completion;
 //-(void)pauseWithoutLog;
--(NSInteger)getDropFrames;
-//-(void)playWithoutLog;
 
+//-(void)playWithoutLog;
+// 1.4.4
+-(void)changeQuality:(int)qua;
+-(void)setQualityAndBandwidth:(NSDictionary*)dict maxQuality:(NSString*)maxQ;
+-(NSString*)currentQuality;
+-(void)setMaxQuality;
+-(void)setQuality:(int)qua strQ:(NSString*)strQ;
 @optional
 
 //- (void)enableTracks:(BOOL)isEnablingTracks;

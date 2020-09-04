@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "SohaPlayer/SHViewController.h"
 
-//update seek from end video
+//update seek from end video 
 
 //NS_ASSUME_NONNULL_BEGIN
 
@@ -62,55 +62,55 @@ typedef enum {
 
 @interface SohaPlayerManager : NSObject
 
-#pragma Method public for user
-/**
- *Init instance of player manager and return singeton instance of player manager
- */
-+(void) initialized:(id<OnPreparePlayerManager>) delegate;
-/**
- * Shared instance of place
- */
-+(SohaPlayerManager*) shared;
-/**
- *Return your permission to using player
- */
--(BOOL) isAllowUsingPlayer;
-/**
- * Return shared instance of playermanager, that's created before.
- */
--(SohaPlayerManager*)shared;
-/**
- * Create player and return a new instance player
- */
--(SHViewController*)createPlayer:(UIView*)playerContainer;
-/**
- * Get Player app key
- */
--(NSString*)getAppKey;
-/**
- * Get Player secret key
- */
--(NSString*)getSecretKey;
-/**
- * Get Player player id
- */
--(NSString*)getPlayerId;
-/**
- * set Player manager delegate when player manager initialized
- */
--(void)setOnPlayerPrepare:(id<OnPreparePlayerManager>)reponse;
+    #pragma Method public for user
+    /**
+     *Init instance of player manager and return singeton instance of player manager
+     */
+    +(void) initialized:(id<OnPreparePlayerManager>) delegate;
+    /**
+     * Shared instance of place
+     */
+    +(SohaPlayerManager*) shared;
+    /**
+     *Return your permission to using player
+     */
+    -(BOOL) isAllowUsingPlayer;
+    /**
+     * Return shared instance of playermanager, that's created before.
+     */
+    -(SohaPlayerManager*)shared;
+    /**
+     * Create player and return a new instance player
+     */
+    -(SHViewController*)createPlayer:(UIView*)playerContainer;
+    /**
+     * Get Player app key
+     */
+    -(NSString*)getAppKey;
+    /**
+     * Get Player secret key
+     */
+    -(NSString*)getSecretKey;
+    /**
+     * Get Player player id
+     */
+    -(NSString*)getPlayerId;
+    /**
+     * set Player manager delegate when player manager initialized
+     */
+    -(void)setOnPlayerPrepare:(id<OnPreparePlayerManager>)reponse;
 
--(PermissionState)getPermissionPlayer;
+    -(PermissionState)getPermissionPlayer;
 
--(void)authenPlayerSynchronous:(void(^)(int code,NSString* message))completion;
+    -(void)authenPlayerSynchronous:(void(^)(int code,NSString* message))completion;
 
--(void)getBandwidth;
+    -(void)getBandwidth;
 
--(void)removeDelegateGetBandwidth;
+    -(void)removeDelegateGetBandwidth;
 
-@property (nonatomic, readonly) float speed;
+    @property (nonatomic, readonly) float speed;
 
-@property (nonatomic, readonly) BOOL isGettingBandwidth;
+    @property (nonatomic, readonly) BOOL isGettingBandwidth;
 @end
 
 //NS_ASSUME_NONNULL_END
