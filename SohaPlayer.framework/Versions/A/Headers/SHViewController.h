@@ -9,7 +9,6 @@
 
 @protocol SohaPlayer;
 
-#import "SHViewControllerProtocols.h"
 #import "SHPlayerConfig.h"
 // -----------------------------------------------------------------------------
 // Media Player Types
